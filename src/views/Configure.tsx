@@ -70,7 +70,7 @@ function ValidationPanel() {
   const hasWarnings   = (validationResult?.warnings.length ?? 0) > 0;
   const isValid       = validationResult?.valid ?? true;
   const isBlocked     = hasCritical || hasErrors;
-  const isLastStep    = currentStep === STEPS.length - 1;
+  const allSelected   = selectedCount === STEPS.length;
 
   const handleAddToCart = useCallback(() => {
     const model =
@@ -174,10 +174,10 @@ function ValidationPanel() {
           className="w-full py-2.5 border border-white/8 text-xs text-white/40 rounded-lg hover:border-white/20 hover:text-white/60 transition-colors">
           Szczegoly walidacji
         </button>
-        {isLastStep && (
+        {allSelected && (
           <button onClick={handleAddToCart} disabled={isBlocked}
             className="w-full py-2.5 bg-white text-[#0F0F11] text-xs font-bold rounded-lg hover:bg-white/90 disabled:opacity-25 disabled:cursor-not-allowed transition-colors">
-            {isBlocked ? 'Popraw bledy aby dodac' : 'Dodaj do koszyka'}
+            {isBlocked ? 'Popraw bledy aby dodac' : 'Dodaj do koszyka →'}
           </button>
         )}
       </div>
@@ -209,9 +209,8 @@ export default function Configure() {
     [...validationResult.critical, ...validationResult.errors].forEach(issue => {
       console.log('[issue]', JSON.stringify(issue));
       issue.affected_groups?.forEach((g: string) => {
-        groups[g]?.components.forEach(c => {
-          incompatibleMap.set(c.id, issue.message);
-        });
+        const selectedId = selection[g as ComponentGroupKey];
+        if (selectedId) incompatibleMap.set(selectedId, issue.message);
       });
     });
   }
