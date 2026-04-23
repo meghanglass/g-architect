@@ -1,0 +1,295 @@
+{
+  "$schema": "https://design-tokens.org/schema/dtcg-draft",
+  "version": "1.0.0",
+  "meta": {
+    "description": "Tokeny projektowe dla systemu konfiguracji modułowej — Glock G17/G19/G45, Gen 3/4/5",
+    "figma_collection_strategy": "4 kolekcje: Primitive Colors / Semantic Colors / Component State / Dimension Data",
+    "modes": ["G17-Gen3", "G17-Gen4", "G17-Gen5", "G19-Gen3", "G19-Gen4", "G19-Gen5", "G45-Gen5"]
+  },
+
+  "primitive_colors": {
+    "$collection": "01 — Primitive Colors",
+    "$description": "Surowe wartości hex. Nigdy nie używaj ich bezpośrednio w komponentach UI.",
+
+    "generation": {
+      "gen3": {
+        "surface":   { "$type": "color", "$value": "#E8ECF0", "$comment": "Tenifer era — chłodny szaro-błękit" },
+        "mid":       { "$type": "color", "$value": "#7A8FA0" },
+        "strong":    { "$type": "color", "$value": "#3D5467" },
+        "text":      { "$type": "color", "$value": "#1E2F3A" }
+      },
+      "gen4": {
+        "surface":   { "$type": "color", "$value": "#E6E8EF", "$comment": "RTF era — ciemniejszy, bardziej taktyczny" },
+        "mid":       { "$type": "color", "$value": "#6B7490" },
+        "strong":    { "$type": "color", "$value": "#343B5E" },
+        "text":      { "$type": "color", "$value": "#1A1D30" }
+      },
+      "gen5": {
+        "surface":   { "$type": "color", "$value": "#E3E4EA", "$comment": "nDLC era — niemal czarny, premium" },
+        "mid":       { "$type": "color", "$value": "#4E525F" },
+        "strong":    { "$type": "color", "$value": "#1E2026" },
+        "text":      { "$type": "color", "$value": "#0D0F13" }
+      }
+    },
+
+    "model": {
+      "g17": {
+        "surface":   { "$type": "color", "$value": "#E6EFFE", "$comment": "Full-size — niebieski, pewny, dominujący" },
+        "mid":       { "$type": "color", "$value": "#3D7EE8" },
+        "strong":    { "$type": "color", "$value": "#1A4FAA" },
+        "text":      { "$type": "color", "$value": "#0C2B62" }
+      },
+      "g19": {
+        "surface":   { "$type": "color", "$value": "#E2F5EE", "$comment": "Compact — teal, zwinny, wszechstronny" },
+        "mid":       { "$type": "color", "$value": "#2BAB82" },
+        "strong":    { "$type": "color", "$value": "#0F6E56" },
+        "text":      { "$type": "color", "$value": "#053D2F" }
+      },
+      "g45": {
+        "surface":   { "$type": "color", "$value": "#FEF4E3", "$comment": "Crossover — bursztyn, wyjątkowy, hybrydowy" },
+        "mid":       { "$type": "color", "$value": "#E09B25" },
+        "strong":    { "$type": "color", "$value": "#8C5E0A" },
+        "text":      { "$type": "color", "$value": "#4A3005" }
+      }
+    },
+
+    "component_group": {
+      "frame":    { "surface": { "$type": "color", "$value": "#F0EDFE" }, "strong": { "$type": "color", "$value": "#5548C0" }, "text": { "$type": "color", "$value": "#2B2270" } },
+      "slide":    { "surface": { "$type": "color", "$value": "#E6EFFE" }, "strong": { "$type": "color", "$value": "#2563CC" }, "text": { "$type": "color", "$value": "#0D3680" } },
+      "barrel":   { "surface": { "$type": "color", "$value": "#E2F5EE" }, "strong": { "$type": "color", "$value": "#0F9069" }, "text": { "$type": "color", "$value": "#054D38" } },
+      "trigger":  { "surface": { "$type": "color", "$value": "#FBF0EC" }, "strong": { "$type": "color", "$value": "#C85030" }, "text": { "$type": "color", "$value": "#7A2A14" } },
+      "magazine": { "surface": { "$type": "color", "$value": "#FBEAF2" }, "strong": { "$type": "color", "$value": "#B83A6A" }, "text": { "$type": "color", "$value": "#6A1D3E" } },
+      "rsa":      { "surface": { "$type": "color", "$value": "#FFF5E5" }, "strong": { "$type": "color", "$value": "#CC7A14" }, "text": { "$type": "color", "$value": "#7A4200" } }
+    },
+
+    "status": {
+      "valid":    { "surface": { "$type": "color", "$value": "#EBF5DC" }, "strong": { "$type": "color", "$value": "#4A8A16" }, "text": { "$type": "color", "$value": "#234808" } },
+      "warning":  { "surface": { "$type": "color", "$value": "#FFF5E0" }, "strong": { "$type": "color", "$value": "#C98010" }, "text": { "$type": "color", "$value": "#6B4200" } },
+      "error":    { "surface": { "$type": "color", "$value": "#FDE8E8" }, "strong": { "$type": "color", "$value": "#CC2222" }, "text": { "$type": "color", "$value": "#7A0F0F" } },
+      "critical": { "surface": { "$type": "color", "$value": "#F9DADA" }, "strong": { "$type": "color", "$value": "#AA1010" }, "text": { "$type": "color", "$value": "#5C0000" } },
+      "idle":     { "surface": { "$type": "color", "$value": "#F2F1EC" }, "strong": { "$type": "color", "$value": "#888078" }, "text": { "$type": "color", "$value": "#3A3630" } }
+    },
+
+    "finish": {
+      "tenifer":  { "$type": "color", "$value": "#5A6B78", "$comment": "Gen 3 — ciemny szaro-stalowy" },
+      "tenifer_light": { "$type": "color", "$value": "#9AAAB8" },
+      "ndlc":     { "$type": "color", "$value": "#1C1E22", "$comment": "Gen 5 — niemal czarny, głęboki" },
+      "ndlc_light": { "$type": "color", "$value": "#4A4D54" },
+      "polymer2": { "$type": "color", "$value": "#2A2B2E", "$comment": "Ramka — ciemny polymer" },
+      "polymer2_light": { "$type": "color", "$value": "#555860" }
+    }
+  },
+
+  "semantic_colors": {
+    "$collection": "02 — Semantic Colors",
+    "$description": "Aliasy prymitywów. Te tokeny używasz w komponentach. Mają kontekst znaczeniowy.",
+
+    "surface": {
+      "card_default":     { "$type": "color", "$value": "{primitive_colors.status.idle.surface}" },
+      "card_selected":    { "$type": "color", "$value": "{primitive_colors.model.g17.surface}" },
+      "card_incompatible":{ "$type": "color", "$value": "{primitive_colors.status.error.surface}" },
+      "card_critical":    { "$type": "color", "$value": "{primitive_colors.status.critical.surface}" }
+    },
+    "border": {
+      "card_default":     { "$type": "color", "$value": "{primitive_colors.status.idle.strong}" },
+      "card_selected":    { "$type": "color", "$value": "{primitive_colors.model.g17.strong}" },
+      "card_incompatible":{ "$type": "color", "$value": "{primitive_colors.status.error.strong}" }
+    },
+    "indicator": {
+      "valid":    { "$type": "color", "$value": "{primitive_colors.status.valid.strong}" },
+      "warning":  { "$type": "color", "$value": "{primitive_colors.status.warning.strong}" },
+      "error":    { "$type": "color", "$value": "{primitive_colors.status.error.strong}" },
+      "critical": { "$type": "color", "$value": "{primitive_colors.status.critical.strong}" }
+    }
+  },
+
+  "dimension_data": {
+    "$collection": "03 — Dimension Data",
+    "$description": "Zmienne liczbowe odzwierciedlające rzeczywiste wymiary techniczne. Każdy Mode = jeden model/generacja.",
+    "$modes": ["G17-Gen3", "G17-Gen4", "G17-Gen5", "G19-Gen3", "G19-Gen4", "G19-Gen5", "G45-Gen5"],
+
+    "frame": {
+      "length_mm": {
+        "$type": "number",
+        "$unit": "mm",
+        "$description": "Całkowita długość ramki (= całkowita długość pistoletu)",
+        "G17-Gen3": { "$value": 202 },
+        "G17-Gen4": { "$value": 202 },
+        "G17-Gen5": { "$value": 202 },
+        "G19-Gen3": { "$value": 187 },
+        "G19-Gen4": { "$value": 187 },
+        "G19-Gen5": { "$value": 187 },
+        "G45-Gen5": { "$value": 202 }
+      },
+      "height_mm": {
+        "$type": "number",
+        "$unit": "mm",
+        "$description": "Wysokość ramki (bez magazynka)",
+        "G17-Gen3": { "$value": 139 },
+        "G17-Gen4": { "$value": 139 },
+        "G17-Gen5": { "$value": 139 },
+        "G19-Gen3": { "$value": 127 },
+        "G19-Gen4": { "$value": 127 },
+        "G19-Gen5": { "$value": 127 },
+        "G45-Gen5": { "$value": 139 }
+      },
+      "width_mm": {
+        "$type": "number",
+        "$unit": "mm",
+        "$description": "Szerokość pistoletu (przez zamek)",
+        "G17-Gen3": { "$value": 30 },
+        "G17-Gen4": { "$value": 30 },
+        "G17-Gen5": { "$value": 30 },
+        "G19-Gen3": { "$value": 30 },
+        "G19-Gen4": { "$value": 30 },
+        "G19-Gen5": { "$value": 30 },
+        "G45-Gen5": { "$value": 30 }
+      },
+      "generation": {
+        "$type": "number",
+        "$description": "Numer generacji — używany do walidacji reguł",
+        "G17-Gen3": { "$value": 3 },
+        "G17-Gen4": { "$value": 4 },
+        "G17-Gen5": { "$value": 5 },
+        "G19-Gen3": { "$value": 3 },
+        "G19-Gen4": { "$value": 4 },
+        "G19-Gen5": { "$value": 5 },
+        "G45-Gen5": { "$value": 5 }
+      }
+    },
+
+    "barrel": {
+      "length_mm": {
+        "$type": "number",
+        "$unit": "mm",
+        "$description": "Długość lufy",
+        "G17-Gen3": { "$value": 114 },
+        "G17-Gen4": { "$value": 114 },
+        "G17-Gen5": { "$value": 114 },
+        "G19-Gen3": { "$value": 102 },
+        "G19-Gen4": { "$value": 102 },
+        "G19-Gen5": { "$value": 102 },
+        "G45-Gen5": { "$value": 102 }
+      },
+      "length_in_x100": {
+        "$type": "number",
+        "$unit": "inch×100",
+        "$description": "Długość lufy w calach × 100 (Figma Variables obsługuje tylko liczby całkowite — podziel przez 100 w UI)",
+        "G17-Gen3": { "$value": 449 },
+        "G17-Gen4": { "$value": 449 },
+        "G17-Gen5": { "$value": 449 },
+        "G19-Gen3": { "$value": 402 },
+        "G19-Gen4": { "$value": 402 },
+        "G19-Gen5": { "$value": 402 },
+        "G45-Gen5": { "$value": 402 }
+      }
+    },
+
+    "weight": {
+      "unloaded_g": {
+        "$type": "number",
+        "$unit": "g",
+        "$description": "Masa pistoletu bez magazynka i amunicji",
+        "G17-Gen3": { "$value": 620 },
+        "G17-Gen4": { "$value": 630, "$comment": "Nieznacznie wyżej przez RSA dual" },
+        "G17-Gen5": { "$value": 625 },
+        "G19-Gen3": { "$value": 595 },
+        "G19-Gen4": { "$value": 600 },
+        "G19-Gen5": { "$value": 600 },
+        "G45-Gen5": { "$value": 614, "$comment": "Hybryda: cięższy chwyt G17 + lżejszy slide G19" }
+      }
+    },
+
+    "trigger": {
+      "pull_n": {
+        "$type": "number",
+        "$unit": "N",
+        "$description": "Masa spustu w Newtonach",
+        "G17-Gen3": { "$value": 25 },
+        "G17-Gen4": { "$value": 28 },
+        "G17-Gen5": { "$value": 28 },
+        "G19-Gen3": { "$value": 25 },
+        "G19-Gen4": { "$value": 28 },
+        "G19-Gen5": { "$value": 28 },
+        "G45-Gen5": { "$value": 28 }
+      },
+      "pull_lbs_x10": {
+        "$type": "number",
+        "$unit": "lbs×10",
+        "$description": "Masa spustu w funtach × 10 (podziel przez 10 w UI)",
+        "G17-Gen3": { "$value": 55 },
+        "G17-Gen4": { "$value": 60 },
+        "G17-Gen5": { "$value": 60 },
+        "G19-Gen3": { "$value": 55 },
+        "G19-Gen4": { "$value": 60 },
+        "G19-Gen5": { "$value": 60 },
+        "G45-Gen5": { "$value": 60 }
+      },
+      "pre_travel_mm_x10": {
+        "$type": "number",
+        "$unit": "mm×10",
+        "$description": "Pre-travel w mm × 10",
+        "G17-Gen3": { "$value": 55 },
+        "G17-Gen4": { "$value": 55 },
+        "G17-Gen5": { "$value": 55 },
+        "G19-Gen3": { "$value": 55 },
+        "G19-Gen4": { "$value": 55 },
+        "G19-Gen5": { "$value": 55 },
+        "G45-Gen5": { "$value": 55 }
+      },
+      "reset_mm_x10": {
+        "$type": "number",
+        "$unit": "mm×10",
+        "$description": "Skok powrotu spustu w mm × 10",
+        "G17-Gen3": { "$value": 35 },
+        "G17-Gen4": { "$value": 35 },
+        "G17-Gen5": { "$value": 35 },
+        "G19-Gen3": { "$value": 35 },
+        "G19-Gen4": { "$value": 35 },
+        "G19-Gen5": { "$value": 35 },
+        "G45-Gen5": { "$value": 35 }
+      }
+    },
+
+    "magazine": {
+      "std_capacity_rounds": {
+        "$type": "number",
+        "$unit": "rounds",
+        "$description": "Pojemność standardowego magazynka OEM",
+        "G17-Gen3": { "$value": 17 },
+        "G17-Gen4": { "$value": 17 },
+        "G17-Gen5": { "$value": 17 },
+        "G19-Gen3": { "$value": 15 },
+        "G19-Gen4": { "$value": 15 },
+        "G19-Gen5": { "$value": 15 },
+        "G45-Gen5": { "$value": 17, "$comment": "G45 używa magazynka G17" }
+      }
+    },
+
+    "ui_layout": {
+      "$description": "Tokeny liczbowe do skalowania elementów UI proporcjonalnie do wymiarów fizycznych",
+      "silhouette_scale_factor": {
+        "$type": "number",
+        "$description": "Współczynnik skali dla wizualizacji sylwetki pistoletu (px/mm × 100, podziel przez 100)",
+        "G17-Gen3": { "$value": 150, "$comment": "202mm → 303px przy scale 1.5" },
+        "G17-Gen4": { "$value": 150 },
+        "G17-Gen5": { "$value": 150 },
+        "G19-Gen3": { "$value": 138, "$comment": "187mm proporcjonalnie" },
+        "G19-Gen4": { "$value": 138 },
+        "G19-Gen5": { "$value": 138 },
+        "G45-Gen5": { "$value": 150 }
+      },
+      "height_ratio_x1000": {
+        "$type": "number",
+        "$description": "Stosunek wysokość/długość × 1000 — do dynamicznego skalowania viewBox",
+        "G17-Gen3": { "$value": 688, "$comment": "139/202 = 0.688" },
+        "G17-Gen4": { "$value": 688 },
+        "G17-Gen5": { "$value": 688 },
+        "G19-Gen3": { "$value": 679, "$comment": "127/187 = 0.679" },
+        "G19-Gen4": { "$value": 679 },
+        "G19-Gen5": { "$value": 679 },
+        "G45-Gen5": { "$value": 688 }
+      }
+    }
+  }
+}

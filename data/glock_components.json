@@ -1,0 +1,567 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12",
+  "version": "1.0.0",
+  "last_updated": "2025-04-23",
+  "product_line": "Glock Pistols — 9x19mm Parabellum",
+  "models_covered": ["G17", "G19", "G45"],
+  "generations_covered": [3, 4, 5],
+
+  "component_groups": {
+
+    "frame": {
+      "label": "Szkielet (Frame)",
+      "description": "Polimerowy szkielet pistoletu — definiuje generację i rozmiar.",
+      "components": [
+        {
+          "id": "FRAME-G17-G3",
+          "name": "Glock 17 Frame — Gen 3",
+          "model": "G17",
+          "generation": 3,
+          "size_class": "full-size",
+          "specs": {
+            "material": "Polymer 2",
+            "finger_grooves": true,
+            "rail": "Glock Accessory Rail",
+            "backstrap_system": "fixed",
+            "mag_release": "reversible_no",
+            "grip_texture": "pebbled",
+            "beaver_tail": false,
+            "flared_magwell": false,
+            "frame_length_mm": 202,
+            "height_mm": 139,
+            "width_mm": 30
+          },
+          "compatible_recoil_spring": ["RSA-G3-STANDARD"],
+          "compatible_mag_release": ["MR-G3"],
+          "ui_meta": {
+            "color_token": "frame-gen3",
+            "icon": "frame-g17-g3.svg",
+            "availability": "active",
+            "generation_label": "Gen 3"
+          }
+        },
+        {
+          "id": "FRAME-G17-G4",
+          "name": "Glock 17 Frame — Gen 4",
+          "model": "G17",
+          "generation": 4,
+          "size_class": "full-size",
+          "specs": {
+            "material": "Polymer 2",
+            "finger_grooves": true,
+            "rail": "Glock Accessory Rail",
+            "backstrap_system": "modular-MBS",
+            "backstrap_options": ["BS-S", "BS-M", "BS-L", "BS-LT"],
+            "mag_release": "reversible_yes",
+            "grip_texture": "RTF (Rough Texture Frame)",
+            "beaver_tail": true,
+            "flared_magwell": false,
+            "frame_length_mm": 202,
+            "height_mm": 139,
+            "width_mm": 30
+          },
+          "compatible_recoil_spring": ["RSA-G4-DUAL"],
+          "compatible_mag_release": ["MR-G4-L", "MR-G4-R"],
+          "ui_meta": {
+            "color_token": "frame-gen4",
+            "icon": "frame-g17-g4.svg",
+            "availability": "active",
+            "generation_label": "Gen 4"
+          }
+        },
+        {
+          "id": "FRAME-G17-G5",
+          "name": "Glock 17 Frame — Gen 5",
+          "model": "G17",
+          "generation": 5,
+          "size_class": "full-size",
+          "specs": {
+            "material": "Polymer 2 (nPVD coating compatible)",
+            "finger_grooves": false,
+            "rail": "Glock Accessory Rail MOS compatible",
+            "backstrap_system": "modular-MBS",
+            "backstrap_options": ["BS-S", "BS-M", "BS-L", "BS-LT"],
+            "mag_release": "ambidextrous",
+            "grip_texture": "GTL (Gen 5 Texture)",
+            "beaver_tail": true,
+            "flared_magwell": true,
+            "frame_length_mm": 202,
+            "height_mm": 139,
+            "width_mm": 30
+          },
+          "compatible_recoil_spring": ["RSA-G5-DUAL"],
+          "compatible_mag_release": ["MR-G5-AMBI"],
+          "ui_meta": {
+            "color_token": "frame-gen5",
+            "icon": "frame-g17-g5.svg",
+            "availability": "active",
+            "generation_label": "Gen 5"
+          }
+        },
+        {
+          "id": "FRAME-G19-G3",
+          "name": "Glock 19 Frame — Gen 3",
+          "model": "G19",
+          "generation": 3,
+          "size_class": "compact",
+          "specs": {
+            "material": "Polymer 2",
+            "finger_grooves": true,
+            "rail": "Glock Accessory Rail",
+            "backstrap_system": "fixed",
+            "mag_release": "reversible_no",
+            "grip_texture": "pebbled",
+            "beaver_tail": false,
+            "flared_magwell": false,
+            "frame_length_mm": 187,
+            "height_mm": 127,
+            "width_mm": 30
+          },
+          "compatible_recoil_spring": ["RSA-G3-STANDARD"],
+          "compatible_mag_release": ["MR-G3"],
+          "ui_meta": {
+            "color_token": "frame-gen3",
+            "icon": "frame-g19-g3.svg",
+            "availability": "active",
+            "generation_label": "Gen 3"
+          }
+        },
+        {
+          "id": "FRAME-G19-G4",
+          "name": "Glock 19 Frame — Gen 4",
+          "model": "G19",
+          "generation": 4,
+          "size_class": "compact",
+          "specs": {
+            "material": "Polymer 2",
+            "finger_grooves": true,
+            "rail": "Glock Accessory Rail",
+            "backstrap_system": "modular-MBS",
+            "backstrap_options": ["BS-S", "BS-M", "BS-L", "BS-LT"],
+            "mag_release": "reversible_yes",
+            "grip_texture": "RTF (Rough Texture Frame)",
+            "beaver_tail": true,
+            "flared_magwell": false,
+            "frame_length_mm": 187,
+            "height_mm": 127,
+            "width_mm": 30
+          },
+          "compatible_recoil_spring": ["RSA-G4-DUAL"],
+          "compatible_mag_release": ["MR-G4-L", "MR-G4-R"],
+          "ui_meta": {
+            "color_token": "frame-gen4",
+            "icon": "frame-g19-g4.svg",
+            "availability": "active",
+            "generation_label": "Gen 4"
+          }
+        },
+        {
+          "id": "FRAME-G19-G5",
+          "name": "Glock 19 Frame — Gen 5",
+          "model": "G19",
+          "generation": 5,
+          "size_class": "compact",
+          "specs": {
+            "material": "Polymer 2 (nPVD coating compatible)",
+            "finger_grooves": false,
+            "rail": "Glock Accessory Rail MOS compatible",
+            "backstrap_system": "modular-MBS",
+            "backstrap_options": ["BS-S", "BS-M", "BS-L", "BS-LT"],
+            "mag_release": "ambidextrous",
+            "grip_texture": "GTL (Gen 5 Texture)",
+            "beaver_tail": true,
+            "flared_magwell": true,
+            "frame_length_mm": 187,
+            "height_mm": 127,
+            "width_mm": 30
+          },
+          "compatible_recoil_spring": ["RSA-G5-DUAL"],
+          "compatible_mag_release": ["MR-G5-AMBI"],
+          "ui_meta": {
+            "color_token": "frame-gen5",
+            "icon": "frame-g19-g5.svg",
+            "availability": "active",
+            "generation_label": "Gen 5"
+          }
+        },
+        {
+          "id": "FRAME-G45-G5",
+          "name": "Glock 45 Frame — Gen 5 (Crossover)",
+          "model": "G45",
+          "generation": 5,
+          "size_class": "crossover",
+          "note": "Full-size frame (G17) z compact slide (G19) — Gen 5 only",
+          "specs": {
+            "material": "Polymer 2 (nPVD coating compatible)",
+            "finger_grooves": false,
+            "rail": "Glock Accessory Rail MOS compatible",
+            "backstrap_system": "modular-MBS",
+            "backstrap_options": ["BS-S", "BS-M", "BS-L", "BS-LT"],
+            "mag_release": "ambidextrous",
+            "grip_texture": "GTL (Gen 5 Texture)",
+            "beaver_tail": true,
+            "flared_magwell": true,
+            "frame_length_mm": 202,
+            "height_mm": 139,
+            "width_mm": 30
+          },
+          "compatible_recoil_spring": ["RSA-G5-DUAL"],
+          "compatible_mag_release": ["MR-G5-AMBI"],
+          "ui_meta": {
+            "color_token": "frame-gen5-crossover",
+            "icon": "frame-g45-g5.svg",
+            "availability": "active",
+            "generation_label": "Gen 5 Crossover"
+          }
+        }
+      ]
+    },
+
+    "slide": {
+      "label": "Zamek (Slide)",
+      "description": "Stalowy zamek — model i generacja determinują kompatybilność z lufą.",
+      "components": [
+        {
+          "id": "SLIDE-G17-G3-G4",
+          "name": "Glock 17 Slide — Gen 3/4",
+          "compatible_models": ["G17"],
+          "compatible_generations": [3, 4],
+          "size_class": "full-size",
+          "specs": {
+            "material": "Tenifer-coated steel",
+            "finish": "Tenifer",
+            "length_mm": 202,
+            "serrations": "rear-only",
+            "optics_cut": false,
+            "recoil_spring_type": "RSA-G3-STANDARD",
+            "barrel_lock_type": "standard-G17"
+          },
+          "compatible_barrels": ["BARREL-G17-G3G4-114", "BARREL-G17-AFTERMARKET-114"],
+          "ui_meta": {
+            "color_token": "slide-g3g4",
+            "availability": "active"
+          }
+        },
+        {
+          "id": "SLIDE-G17-G5",
+          "name": "Glock 17 Slide — Gen 5",
+          "compatible_models": ["G17"],
+          "compatible_generations": [5],
+          "size_class": "full-size",
+          "specs": {
+            "material": "nDLC-coated steel",
+            "finish": "nDLC (Diamond-Like Carbon)",
+            "length_mm": 202,
+            "serrations": "front-and-rear",
+            "optics_cut": false,
+            "recoil_spring_type": "RSA-G5-DUAL",
+            "barrel_lock_type": "standard-G17-G5"
+          },
+          "compatible_barrels": ["BARREL-G17-G5-114-MB", "BARREL-G17-AFTERMARKET-114"],
+          "ui_meta": {
+            "color_token": "slide-g5",
+            "availability": "active"
+          }
+        },
+        {
+          "id": "SLIDE-G19-G3-G4",
+          "name": "Glock 19 Slide — Gen 3/4",
+          "compatible_models": ["G19"],
+          "compatible_generations": [3, 4],
+          "size_class": "compact",
+          "specs": {
+            "material": "Tenifer-coated steel",
+            "finish": "Tenifer",
+            "length_mm": 165,
+            "serrations": "rear-only",
+            "optics_cut": false,
+            "recoil_spring_type": "RSA-G3-STANDARD",
+            "barrel_lock_type": "standard-G19"
+          },
+          "compatible_barrels": ["BARREL-G19-G3G4-102", "BARREL-G19-AFTERMARKET-102"],
+          "ui_meta": {
+            "color_token": "slide-g3g4",
+            "availability": "active"
+          }
+        },
+        {
+          "id": "SLIDE-G19-G5",
+          "name": "Glock 19 Slide — Gen 5",
+          "compatible_models": ["G19", "G45"],
+          "compatible_generations": [5],
+          "size_class": "compact",
+          "note": "Ten zamek pasuje zarówno do G19 Gen 5 jak i G45 Gen 5 (kluczowa reguła kompatybilności)",
+          "specs": {
+            "material": "nDLC-coated steel",
+            "finish": "nDLC (Diamond-Like Carbon)",
+            "length_mm": 165,
+            "serrations": "front-and-rear",
+            "optics_cut": false,
+            "recoil_spring_type": "RSA-G5-DUAL",
+            "barrel_lock_type": "standard-G19-G5"
+          },
+          "compatible_barrels": ["BARREL-G19-G5-102-MB", "BARREL-G19-AFTERMARKET-102"],
+          "ui_meta": {
+            "color_token": "slide-g5",
+            "availability": "active"
+          }
+        }
+      ]
+    },
+
+    "barrel": {
+      "label": "Lufa (Barrel)",
+      "description": "Wymiana lufy zmienia charakterystykę balistyczną. Kompatybilność z zamkiem i RSA jest krytyczna.",
+      "components": [
+        {
+          "id": "BARREL-G17-G3G4-114",
+          "name": "Glock 17 Barrel 114mm — Gen 3/4 OEM",
+          "compatible_models": ["G17"],
+          "compatible_generations": [3, 4],
+          "specs": {
+            "length_mm": 114,
+            "length_in": 4.49,
+            "caliber": "9x19mm",
+            "twist_rate": "1:10 RH (250mm)",
+            "rifling": "hexagonal",
+            "finish": "Tenifer",
+            "muzzle_thread": null,
+            "locking_block_compatibility": "LB-G17-G3G4"
+          },
+          "ui_meta": {
+            "color_token": "barrel-oem-g3g4",
+            "availability": "active"
+          }
+        },
+        {
+          "id": "BARREL-G17-G5-114-MB",
+          "name": "Glock 17 Marksman Barrel 114mm — Gen 5",
+          "compatible_models": ["G17"],
+          "compatible_generations": [5],
+          "specs": {
+            "length_mm": 114,
+            "length_in": 4.49,
+            "caliber": "9x19mm",
+            "twist_rate": "1:10 RH (250mm)",
+            "rifling": "polygonal (Marksman Barrel)",
+            "finish": "nDLC",
+            "muzzle_thread": null,
+            "locking_block_compatibility": "LB-G17-G5",
+            "accuracy_improvement": "improved crown geometry"
+          },
+          "ui_meta": {
+            "color_token": "barrel-marksman-g5",
+            "availability": "active"
+          }
+        },
+        {
+          "id": "BARREL-G19-G3G4-102",
+          "name": "Glock 19 Barrel 102mm — Gen 3/4 OEM",
+          "compatible_models": ["G19"],
+          "compatible_generations": [3, 4],
+          "specs": {
+            "length_mm": 102,
+            "length_in": 4.02,
+            "caliber": "9x19mm",
+            "twist_rate": "1:10 RH (250mm)",
+            "rifling": "hexagonal",
+            "finish": "Tenifer",
+            "muzzle_thread": null,
+            "locking_block_compatibility": "LB-G19-G3G4"
+          },
+          "ui_meta": {
+            "color_token": "barrel-oem-g3g4",
+            "availability": "active"
+          }
+        },
+        {
+          "id": "BARREL-G19-G5-102-MB",
+          "name": "Glock 19/45 Marksman Barrel 102mm — Gen 5",
+          "compatible_models": ["G19", "G45"],
+          "compatible_generations": [5],
+          "note": "OEM lufa dla G19 Gen 5 i G45 — identyczna specyfikacja.",
+          "specs": {
+            "length_mm": 102,
+            "length_in": 4.02,
+            "caliber": "9x19mm",
+            "twist_rate": "1:10 RH (250mm)",
+            "rifling": "polygonal (Marksman Barrel)",
+            "finish": "nDLC",
+            "muzzle_thread": null,
+            "locking_block_compatibility": "LB-G19-G5",
+            "accuracy_improvement": "improved crown geometry"
+          },
+          "ui_meta": {
+            "color_token": "barrel-marksman-g5",
+            "availability": "active"
+          }
+        }
+      ]
+    },
+
+    "trigger_group": {
+      "label": "Zespół spustowy (Trigger Group)",
+      "description": "Mechanizm Safe Action. Zmiany generacyjne wpływają na wymiary i masę uderzenia.",
+      "components": [
+        {
+          "id": "TRG-SA-G3",
+          "name": "Safe Action Trigger — Gen 3",
+          "compatible_generations": [3],
+          "compatible_models": ["G17", "G19"],
+          "specs": {
+            "trigger_pull_n": 25,
+            "trigger_pull_lbs": 5.5,
+            "pre_travel_mm": 5.5,
+            "reset_mm": 3.5,
+            "connector_type": "standard-3.5kg",
+            "trigger_bar_material": "MIM steel",
+            "trigger_safety": "integrated"
+          },
+          "ui_meta": {
+            "color_token": "trigger-gen3",
+            "availability": "active"
+          }
+        },
+        {
+          "id": "TRG-SA-G4",
+          "name": "Safe Action Trigger — Gen 4",
+          "compatible_generations": [4],
+          "compatible_models": ["G17", "G19"],
+          "specs": {
+            "trigger_pull_n": 28,
+            "trigger_pull_lbs": 6.0,
+            "pre_travel_mm": 5.5,
+            "reset_mm": 3.5,
+            "connector_type": "standard-4.5kg",
+            "trigger_bar_material": "MIM steel (refined)",
+            "trigger_safety": "integrated",
+            "note": "Zmieniony kształt connectora względem Gen 3"
+          },
+          "ui_meta": {
+            "color_token": "trigger-gen4",
+            "availability": "active"
+          }
+        },
+        {
+          "id": "TRG-SA-G5",
+          "name": "Safe Action Trigger — Gen 5",
+          "compatible_generations": [5],
+          "compatible_models": ["G17", "G19", "G45"],
+          "specs": {
+            "trigger_pull_n": 28,
+            "trigger_pull_lbs": 6.0,
+            "pre_travel_mm": 5.5,
+            "reset_mm": 3.5,
+            "connector_type": "standard-4.5kg",
+            "trigger_bar_material": "MIM steel (Gen 5 profile)",
+            "trigger_safety": "integrated",
+            "note": "Zmieniony profil trigger baru — niekompatybilny z ramką Gen 3/4"
+          },
+          "ui_meta": {
+            "color_token": "trigger-gen5",
+            "availability": "active"
+          }
+        }
+      ]
+    },
+
+    "magazine": {
+      "label": "Magazynek (Magazine)",
+      "description": "Kompatybilność magazynków jest złożona — G17 magi działają w G45, ale nie odwrotnie.",
+      "components": [
+        {
+          "id": "MAG-G17-17RD",
+          "name": "Glock 17 Magazine — 17 naboi",
+          "compatible_models": ["G17", "G45"],
+          "compatible_generations": [3, 4, 5],
+          "specs": {
+            "capacity": 17,
+            "caliber": "9x19mm",
+            "material": "steel-lined polymer",
+            "base_plate": "standard",
+            "fits_in_frame": ["full-size", "crossover"],
+            "note": "Pasuje do G45 (full-size frame). Nie pasuje fizycznie do G19 (compact frame za krótki)."
+          },
+          "ui_meta": {
+            "color_token": "mag-fullsize",
+            "availability": "active"
+          }
+        },
+        {
+          "id": "MAG-G19-15RD",
+          "name": "Glock 19 Magazine — 15 naboi",
+          "compatible_models": ["G17", "G19", "G45"],
+          "compatible_generations": [3, 4, 5],
+          "specs": {
+            "capacity": 15,
+            "caliber": "9x19mm",
+            "material": "steel-lined polymer",
+            "base_plate": "standard",
+            "fits_in_frame": ["full-size", "compact", "crossover"],
+            "note": "Universalny: pasuje do G17, G19, G45 — jednak w G17/G45 wystaje poniżej chwytu."
+          },
+          "ui_meta": {
+            "color_token": "mag-compact",
+            "availability": "active"
+          }
+        }
+      ]
+    },
+
+    "recoil_spring_assembly": {
+      "label": "Sprężyna powrotna (RSA)",
+      "description": "Krytyczny element pokoleniowy. RSA Gen 3 (single) ≠ RSA Gen 4/5 (dual captive). Błędny montaż grozi niebezpiecznym działaniem.",
+      "components": [
+        {
+          "id": "RSA-G3-STANDARD",
+          "name": "RSA Single Spring — Gen 3",
+          "compatible_generations": [3],
+          "compatible_models": ["G17", "G19"],
+          "specs": {
+            "type": "single-coil",
+            "captive": false,
+            "spring_weight_designation": "standard",
+            "note": "Pojedyncza sprężyna. Nie wymiennie z Gen 4/5."
+          },
+          "ui_meta": {
+            "color_token": "rsa-gen3",
+            "availability": "active"
+          }
+        },
+        {
+          "id": "RSA-G4-DUAL",
+          "name": "RSA Dual Captive Spring — Gen 4",
+          "compatible_generations": [4],
+          "compatible_models": ["G17", "G19"],
+          "specs": {
+            "type": "dual-coil captive",
+            "captive": true,
+            "spring_weight_designation": "standard",
+            "note": "Podwójna sprężyna captive. Zredukowany recoil impulse. Niekompatybilna z Gen 3 i Gen 5."
+          },
+          "ui_meta": {
+            "color_token": "rsa-gen4",
+            "availability": "active"
+          }
+        },
+        {
+          "id": "RSA-G5-DUAL",
+          "name": "RSA Dual Captive Spring — Gen 5",
+          "compatible_generations": [5],
+          "compatible_models": ["G17", "G19", "G45"],
+          "specs": {
+            "type": "dual-coil captive",
+            "captive": true,
+            "spring_weight_designation": "standard",
+            "note": "Zmodyfikowana wersja Gen 4 RSA. Zmieniony profil prowadnicy — niekompatybilna z Gen 4 zamkiem."
+          },
+          "ui_meta": {
+            "color_token": "rsa-gen5",
+            "availability": "active"
+          }
+        }
+      ]
+    }
+
+  }
+}

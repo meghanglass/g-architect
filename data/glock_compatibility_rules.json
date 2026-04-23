@@ -1,0 +1,289 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12",
+  "version": "1.0.0",
+  "last_updated": "2025-04-23",
+  "product_line": "Glock Pistols — 9x19mm Parabellum",
+  "rule_evaluation_order": ["critical", "error", "warning"],
+
+  "rules": [
+
+    {
+      "rule_id": "R-G-001",
+      "name": "RSA — blokada międzygeneracyjna",
+      "severity": "critical",
+      "description": "RSA Gen 3 (single-coil) jest fizycznie niekompatybilna z zamkiem Gen 4/5 i odwrotnie. Montaż błędnego RSA może doprowadzić do awarii podczas strzału.",
+      "trigger": {
+        "component_group": "recoil_spring_assembly",
+        "attribute": "compatible_generations"
+      },
+      "condition": {
+        "type": "generation_match",
+        "source_attribute": "compatible_generations",
+        "target_group": "frame",
+        "target_attribute": "generation"
+      },
+      "ui_feedback": {
+        "message": "BŁĄD KRYTYCZNY: RSA {{recoil_spring_assembly.name}} (Gen {{recoil_spring_assembly.compatible_generations}}) jest niekompatybilna z ramką Gen {{frame.generation}}. Ryzyko awarii.",
+        "highlight_groups": ["recoil_spring_assembly", "frame", "slide"],
+        "action": "block_selection",
+        "severity_color": "error-critical"
+      }
+    },
+
+    {
+      "rule_id": "R-G-002",
+      "name": "Zmiana generacji ramki — obowiązkowy reset wszystkich podzespołów",
+      "severity": "critical",
+      "description": "Zmiana generacji ramki wymusza wymianę zamka, lufy, RSA i mechanizmu spustowego. Żaden podzespół z innej generacji nie jest certyfikowany przez producenta jako bezpieczny w kombinacji z inną generacją ramki.",
+      "trigger": {
+        "component_group": "frame",
+        "attribute": "generation",
+        "event": "change"
+      },
+      "condition": {
+        "type": "generation_mismatch_across_all",
+        "reference_group": "frame",
+        "reference_attribute": "generation"
+      },
+      "forces_reset": ["slide", "barrel", "trigger_group", "recoil_spring_assembly"],
+      "ui_feedback": {
+        "message": "Zmiana generacji ramki z Gen {{previous_generation}} na Gen {{frame.generation}} wymaga wymiany: zamka, lufy, RSA i mechanizmu spustowego.",
+        "highlight_groups": ["slide", "barrel", "trigger_group", "recoil_spring_assembly"],
+        "action": "reset_and_warn",
+        "severity_color": "error-critical"
+      }
+    },
+
+    {
+      "rule_id": "R-G-003",
+      "name": "Zamek — kompatybilność z modelem ramki",
+      "severity": "error",
+      "description": "Zamek G17 (full-size) nie pasuje do ramki G19 (compact) i odwrotnie. Wyjątek: zamek G19 Gen 5 pasuje do ramki G45 Gen 5.",
+      "trigger": {
+        "component_group": "slide"
+      },
+      "condition": {
+        "type": "model_or_crossover_match",
+        "source_attribute": "compatible_models",
+        "target_group": "frame",
+        "target_attribute": "model",
+        "crossover_exception": {
+          "slide_id": "SLIDE-G19-G5",
+          "frame_id": "FRAME-G45-G5",
+          "allowed": true
+        }
+      },
+      "ui_feedback": {
+        "message": "Zamek {{slide.name}} nie jest kompatybilny z ramką {{frame.name}}. Sprawdź rozmiar (full-size / compact) i model.",
+        "highlight_groups": ["slide", "frame"],
+        "action": "block_selection",
+        "severity_color": "error"
+      }
+    },
+
+    {
+      "rule_id": "R-G-004",
+      "name": "Lufa — kompatybilność z zamkiem i generacją",
+      "severity": "error",
+      "description": "Lufa Gen 5 (Marksman Barrel, nDLC) ma zmodyfikowaną geometrię korony i profil komory — nie jest wymiennie certyfikowana z zamkami Gen 3/4.",
+      "trigger": {
+        "component_group": "barrel"
+      },
+      "condition": {
+        "type": "generation_and_model_match",
+        "source_attribute_gen": "compatible_generations",
+        "source_attribute_model": "compatible_models",
+        "target_group": "slide",
+        "target_attribute_gen": "compatible_generations",
+        "target_attribute_model": "compatible_models"
+      },
+      "ui_feedback": {
+        "message": "Lufa {{barrel.name}} wymaga zamka Gen {{barrel.compatible_generations}}. Aktualny zamek: Gen {{slide.compatible_generations}}.",
+        "highlight_groups": ["barrel", "slide"],
+        "action": "block_selection",
+        "severity_color": "error"
+      }
+    },
+
+    {
+      "rule_id": "R-G-005",
+      "name": "Mechanizm spustowy — blokada generacyjna",
+      "severity": "error",
+      "description": "Trigger bar Gen 5 ma zmieniony profil geometryczny — fizycznie nie współpracuje poprawnie z ramką Gen 3 lub Gen 4. Kombinacja może prowadzić do nieregularnego strzału lub braku oddania strzału.",
+      "trigger": {
+        "component_group": "trigger_group"
+      },
+      "condition": {
+        "type": "generation_match",
+        "source_attribute": "compatible_generations",
+        "target_group": "frame",
+        "target_attribute": "generation"
+      },
+      "ui_feedback": {
+        "message": "Mechanizm spustowy {{trigger_group.name}} (Gen {{trigger_group.compatible_generations}}) nie jest kompatybilny z ramką Gen {{frame.generation}}.",
+        "highlight_groups": ["trigger_group", "frame"],
+        "action": "block_selection",
+        "severity_color": "error"
+      }
+    },
+
+    {
+      "rule_id": "R-G-006",
+      "name": "Magazynek G17 — niezgodność z compact frame",
+      "severity": "warning",
+      "description": "Magazynek G17 (17 naboi) jest za długi dla compact frame G19 — nie wejdzie do studzienki. Konfiguracja G19 + magazynek G17 jest fizycznie niemożliwa.",
+      "trigger": {
+        "component_group": "magazine"
+      },
+      "condition": {
+        "type": "frame_size_compatibility",
+        "source_attribute": "fits_in_frame",
+        "target_group": "frame",
+        "target_attribute": "size_class",
+        "incompatible_combination": {
+          "magazine_id": "MAG-G17-17RD",
+          "frame_size": "compact"
+        }
+      },
+      "ui_feedback": {
+        "message": "Magazynek G17 (17 naboi) nie pasuje do compact frame {{frame.name}}. Użyj magazynka G19 (15 naboi).",
+        "highlight_groups": ["magazine", "frame"],
+        "action": "block_selection",
+        "severity_color": "warning"
+      }
+    },
+
+    {
+      "rule_id": "R-G-007",
+      "name": "G45 — wyłącznie komponenty Gen 5",
+      "severity": "critical",
+      "description": "Glock 45 był produkowany wyłącznie w generacji 5. Żaden komponent Gen 3 ani Gen 4 nie jest kompatybilny z ramką G45.",
+      "trigger": {
+        "component_group": "frame",
+        "filter": { "model": "G45" }
+      },
+      "condition": {
+        "type": "all_components_generation_match",
+        "required_generation": 5
+      },
+      "ui_feedback": {
+        "message": "Glock 45 jest dostępny wyłącznie w Gen 5. Wszystkie podzespoły muszą być w wersji Gen 5.",
+        "highlight_groups": ["frame", "slide", "barrel", "trigger_group", "recoil_spring_assembly"],
+        "action": "block_selection",
+        "severity_color": "error-critical"
+      }
+    },
+
+    {
+      "rule_id": "R-G-008",
+      "name": "RSA Gen 4 i Gen 5 — ostrzeżenie o podobieństwie wizualnym",
+      "severity": "warning",
+      "description": "RSA Gen 4 i Gen 5 wyglądają identycznie. Różnią się profilem prowadnicy. Montaż RSA Gen 4 w pistolecie Gen 5 może skutkować niepoprawnym cyklem pracy.",
+      "trigger": {
+        "component_group": "recoil_spring_assembly",
+        "filter": { "id": ["RSA-G4-DUAL", "RSA-G5-DUAL"] }
+      },
+      "condition": {
+        "type": "generation_match",
+        "source_attribute": "compatible_generations",
+        "target_group": "frame",
+        "target_attribute": "generation"
+      },
+      "ui_feedback": {
+        "message": "⚠️ RSA Gen 4 i Gen 5 są wizualnie niemal identyczne. Upewnij się, że oznaczenie na RSA zgadza się z generacją pistoletu.",
+        "highlight_groups": ["recoil_spring_assembly"],
+        "action": "warn_only",
+        "severity_color": "warning"
+      }
+    }
+
+  ],
+
+  "valid_configurations": [
+    {
+      "config_id": "CFG-G17-G3",
+      "label": "Glock 17 Gen 3 — Konfiguracja standardowa",
+      "components": {
+        "frame": "FRAME-G17-G3",
+        "slide": "SLIDE-G17-G3-G4",
+        "barrel": "BARREL-G17-G3G4-114",
+        "trigger_group": "TRG-SA-G3",
+        "recoil_spring_assembly": "RSA-G3-STANDARD",
+        "magazine": "MAG-G17-17RD"
+      }
+    },
+    {
+      "config_id": "CFG-G17-G4",
+      "label": "Glock 17 Gen 4 — Konfiguracja standardowa",
+      "components": {
+        "frame": "FRAME-G17-G4",
+        "slide": "SLIDE-G17-G3-G4",
+        "barrel": "BARREL-G17-G3G4-114",
+        "trigger_group": "TRG-SA-G4",
+        "recoil_spring_assembly": "RSA-G4-DUAL",
+        "magazine": "MAG-G17-17RD"
+      }
+    },
+    {
+      "config_id": "CFG-G17-G5",
+      "label": "Glock 17 Gen 5 — Konfiguracja standardowa",
+      "components": {
+        "frame": "FRAME-G17-G5",
+        "slide": "SLIDE-G17-G5",
+        "barrel": "BARREL-G17-G5-114-MB",
+        "trigger_group": "TRG-SA-G5",
+        "recoil_spring_assembly": "RSA-G5-DUAL",
+        "magazine": "MAG-G17-17RD"
+      }
+    },
+    {
+      "config_id": "CFG-G19-G3",
+      "label": "Glock 19 Gen 3 — Konfiguracja standardowa",
+      "components": {
+        "frame": "FRAME-G19-G3",
+        "slide": "SLIDE-G19-G3-G4",
+        "barrel": "BARREL-G19-G3G4-102",
+        "trigger_group": "TRG-SA-G3",
+        "recoil_spring_assembly": "RSA-G3-STANDARD",
+        "magazine": "MAG-G19-15RD"
+      }
+    },
+    {
+      "config_id": "CFG-G19-G4",
+      "label": "Glock 19 Gen 4 — Konfiguracja standardowa",
+      "components": {
+        "frame": "FRAME-G19-G4",
+        "slide": "SLIDE-G19-G3-G4",
+        "barrel": "BARREL-G19-G3G4-102",
+        "trigger_group": "TRG-SA-G4",
+        "recoil_spring_assembly": "RSA-G4-DUAL",
+        "magazine": "MAG-G19-15RD"
+      }
+    },
+    {
+      "config_id": "CFG-G19-G5",
+      "label": "Glock 19 Gen 5 — Konfiguracja standardowa",
+      "components": {
+        "frame": "FRAME-G19-G5",
+        "slide": "SLIDE-G19-G5",
+        "barrel": "BARREL-G19-G5-102-MB",
+        "trigger_group": "TRG-SA-G5",
+        "recoil_spring_assembly": "RSA-G5-DUAL",
+        "magazine": "MAG-G19-15RD"
+      }
+    },
+    {
+      "config_id": "CFG-G45-G5",
+      "label": "Glock 45 Gen 5 — Konfiguracja standardowa (Crossover)",
+      "note": "Full-size frame + compact slide: kluczowy przypadek testowy dla reguły R-G-003 (crossover exception)",
+      "components": {
+        "frame": "FRAME-G45-G5",
+        "slide": "SLIDE-G19-G5",
+        "barrel": "BARREL-G19-G5-102-MB",
+        "trigger_group": "TRG-SA-G5",
+        "recoil_spring_assembly": "RSA-G5-DUAL",
+        "magazine": "MAG-G17-17RD"
+      }
+    }
+  ]
+}
