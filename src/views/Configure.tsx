@@ -62,8 +62,6 @@ function ValidationPanel() {
   const selection        = useConfigStore(s => s.selection);
   const validationResult = useConfigStore(s => s.validationResult);
   const addToCart        = useConfigStore(s => s.addToCart);
-  const currentStep      = useConfigStore(s => s.currentStep);
-
   const selectedCount = Object.values(selection).filter(Boolean).length;
   const hasCritical   = (validationResult?.critical.length ?? 0) > 0;
   const hasErrors     = (validationResult?.errors.length   ?? 0) > 0;
@@ -194,7 +192,7 @@ export default function Configure() {
   const setStep          = useConfigStore(s => s.setStep);
 
   useEffect(() => {
-    const result = validateConfiguration(selection);
+    const result = validateConfiguration(selection as unknown as Record<string, string>);
     validateConfig(() => result);
     console.log('[Configure] selection:', selection);
     console.log('[Configure] validationResult:', result);

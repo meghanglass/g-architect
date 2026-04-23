@@ -3,8 +3,8 @@ import { useConfigStore } from '../store/useConfigStore';
 
 const S = {
   critical: { dot: 'bg-red-500',    text: 'text-red-400',    bg: 'bg-red-500/10',    label: 'KRYTYCZNY'    },
-  error:    { dot: 'bg-orange-500', text: 'text-orange-400', bg: 'bg-orange-500/10', label: 'BŁĄD'         },
-  warning:  { dot: 'bg-amber-500',  text: 'text-amber-400',  bg: 'bg-amber-500/10',  label: 'OSTRZEŻENIE'  },
+  errors:   { dot: 'bg-orange-500', text: 'text-orange-400', bg: 'bg-orange-500/10', label: 'BŁĄD'         },
+  warnings: { dot: 'bg-amber-500',  text: 'text-amber-400',  bg: 'bg-amber-500/10',  label: 'OSTRZEŻENIE'  },
 };
 
 export default function Validate() {
@@ -35,7 +35,7 @@ export default function Validate() {
         <p className="text-white/30 text-sm">{isValid ? 'Wszystkie reguły spełnione. Możesz dodać do koszyka.' : 'Popraw błędy przed dodaniem do koszyka.'}</p>
       </div>
 
-      {(['critical','error','warning'] as const).map(sev => {
+      {(['critical','errors','warnings'] as const).map(sev => {
         const issues = (result?.[sev] ?? []) as any[];
         if (!issues.length) return null;
         const st = S[sev];

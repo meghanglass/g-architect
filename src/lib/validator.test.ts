@@ -38,11 +38,11 @@ describe('invalid config — unknown component IDs (BARREL-18-HEAVY + BASE-A1)',
   })
 
   it('reports unknown frame ID as error', () => {
-    expect(result.errors.some(e => e.includes('BASE-A1'))).toBe(true)
+    expect(result.errors.some(e => e.message.includes('BASE-A1'))).toBe(true)
   })
 
   it('reports unknown barrel ID as error', () => {
-    expect(result.errors.some(e => e.includes('BARREL-18-HEAVY'))).toBe(true)
+    expect(result.errors.some(e => e.message.includes('BARREL-18-HEAVY'))).toBe(true)
   })
 })
 
@@ -78,7 +78,7 @@ describe('critical — Gen 3 RSA with Gen 5 frame', () => {
   })
 
   it('has at least one critical issue (R-G-001)', () => {
-    expect(result.critical.some(c => c.includes('R-G-001'))).toBe(true)
+    expect(result.critical.some(c => c.rule_id === 'R-G-001')).toBe(true)
   })
 })
 
@@ -96,6 +96,6 @@ describe('warning — G17 magazine in compact frame', () => {
   it('fails validation (warning treated as blocking)', () => {
     // The rule description says "block_selection" action
     // We surface it in warnings; valid=false only for critical+errors
-    expect(result.warnings.some(w => w.includes('R-G-006'))).toBe(true)
+    expect(result.warnings.some(w => w.rule_id === 'R-G-006')).toBe(true)
   })
 })
