@@ -12,11 +12,18 @@ export interface Configuration {
   magazine?: string
 }
 
+export interface ValidationIssue {
+  rule_id: string
+  name: string
+  message: string
+  affected_groups: string[]
+}
+
 export interface ValidationResult {
   valid: boolean
-  critical: string[]
-  errors: string[]
-  warnings: string[]
+  critical: ValidationIssue[]
+  errors: ValidationIssue[]
+  warnings: ValidationIssue[]
 }
 
 interface ComponentBase {
@@ -85,9 +92,9 @@ function generationsOverlap(a: number[], b: number[]): boolean {
 // ─── Validator ────────────────────────────────────────────────────────────────
 
 export function validateConfiguration(config: Configuration): ValidationResult {
-  const critical: string[] = []
-  const errors: string[] = []
-  const warnings: string[] = []
+  const critical: ValidationIssue[] = []
+  const errors: ValidationIssue[] = []
+  const warnings: ValidationIssue[] = []
 
   const frame = get<FrameComponent>(config.frame)
   const slide = get<SlideComponent>(config.slide)
@@ -97,20 +104,23 @@ export function validateConfiguration(config: Configuration): ValidationResult {
   const magazine = get<MagazineComponent>(config.magazine)
 
   // Unknown component IDs → invalid immediately
-  if (config.frame && !frame) errors.push(`Nieznany komponent ramki: ${config.frame}`)
-  if (config.slide && !slide) errors.push(`Nieznany komponent zamka: ${config.slide}`)
-  if (config.barrel && !barrel) errors.push(`Nieznany komponent lufy: ${config.barrel}`)
-  if (config.trigger_group && !trigger) errors.push(`Nieznany mechanizm spustowy: ${config.trigger_group}`)
-  if (config.recoil_spring_assembly && !rsa) errors.push(`Nieznany RSA: ${config.recoil_spring_assembly}`)
-  if (config.magazine && !magazine) errors.push(`Nieznany magazynek: ${config.magazine}`)
+  if (config.frame && !frame) errors.push({ rule_id: 'R-UNKNOWN', name: 'Nieznany komponent', message: `Nieznany komponent ramki: ${config.frame}`, affected_groups: ['frame'] })
+  if (config.slide && !slide) errors.push({ rule_id: 'R-UNKNOWN', name: 'Nieznany komponent', message: `Nieznany komponent zamka: ${config.slide}`, affected_groups: ['slide'] })
+  if (config.barrel && !barrel) errors.push({ rule_id: 'R-UNKNOWN', name: 'Nieznany komponent', message: `Nieznany komponent lufy: ${config.barrel}`, affected_groups: ['barrel'] })
+  if (config.trigger_group && !trigger) errors.push({ rule_id: 'R-UNKNOWN', name: 'Nieznany komponent', message: `Nieznany mechanizm spustowy: ${config.trigger_group}`, affected_groups: ['trigger_group'] })
+  if (config.recoil_spring_assembly && !rsa) errors.push({ rule_id: 'R-UNKNOWN', name: 'Nieznany komponent', message: `Nieznany RSA: ${config.recoil_spring_assembly}`, affected_groups: ['recoil_spring_assembly'] })
+  if (config.magazine && !magazine) errors.push({ rule_id: 'R-UNKNOWN', name: 'Nieznany komponent', message: `Nieznany magazynek: ${config.magazine}`, affected_groups: ['magazine'] })
 
   // ── R-G-001: RSA inter-generational lockout (critical) ────────────────────
   if (rsa && frame) {
     const rsaGens = rsa.compatible_generations ?? []
     if (!rsaGens.includes(frame.generation)) {
-      critical.push(
-        `[R-G-001] BŁĄD KRYTYCZNY: RSA (Gen ${rsaGens.join('/')}) niekompatybilna z ramką Gen ${frame.generation}. Ryzyko awarii.`
-      )
+      critical.push({
+        rule_id: 'R-G-001',
+        name: 'Blokada międzygeneracyjna RSA',
+        message: `RSA (Gen ${rsaGens.join('/')}) niekompatybilna z ramką Gen ${frame.generation}. Ryzyko awarii.`,
+        affected_groups: ['recoil_spring_assembly', 'frame'],
+      })
     }
   }
 
@@ -118,20 +128,32 @@ export function validateConfiguration(config: Configuration): ValidationResult {
   if (frame) {
     const frameGen = frame.generation
     const mismatched: string[] = []
+    const affectedGroups: string[] = ['frame']
 
-    if (slide && !slide.compatible_generations.includes(frameGen))
+    if (slide && !slide.compatible_generations.includes(frameGen)) {
       mismatched.push(`zamek (Gen ${slide.compatible_generations.join('/')})`)
-    if (barrel && !barrel.compatible_generations.includes(frameGen))
+      affectedGroups.push('slide')
+    }
+    if (barrel && !barrel.compatible_generations.includes(frameGen)) {
       mismatched.push(`lufa (Gen ${barrel.compatible_generations.join('/')})`)
-    if (trigger && !trigger.compatible_generations.includes(frameGen))
+      affectedGroups.push('barrel')
+    }
+    if (trigger && !trigger.compatible_generations.includes(frameGen)) {
       mismatched.push(`mechanizm spustowy (Gen ${trigger.compatible_generations.join('/')})`)
-    if (rsa && !(rsa.compatible_generations ?? []).includes(frameGen))
+      affectedGroups.push('trigger_group')
+    }
+    if (rsa && !(rsa.compatible_generations ?? []).includes(frameGen)) {
       mismatched.push(`RSA (Gen ${(rsa.compatible_generations ?? []).join('/')})`)
+      affectedGroups.push('recoil_spring_assembly')
+    }
 
     if (mismatched.length > 0) {
-      critical.push(
-        `[R-G-002] Ramka Gen ${frameGen} niekompatybilna z: ${mismatched.join(', ')}. Wymagana jednolita generacja.`
-      )
+      critical.push({
+        rule_id: 'R-G-002',
+        name: 'Niezgodność generacji komponentów',
+        message: `Ramka Gen ${frameGen} niekompatybilna z: ${mismatched.join(', ')}. Wymagana jednolita generacja.`,
+        affected_groups: affectedGroups,
+      })
     }
   }
 
@@ -139,12 +161,18 @@ export function validateConfiguration(config: Configuration): ValidationResult {
   const frameAsAny = frame as (FrameComponent & { model?: string }) | null
   if (frameAsAny?.model === 'G45') {
     const nonGen5: string[] = []
-    if (slide && !slide.compatible_generations.includes(5)) nonGen5.push('zamek')
-    if (barrel && !barrel.compatible_generations.includes(5)) nonGen5.push('lufa')
-    if (trigger && !trigger.compatible_generations.includes(5)) nonGen5.push('mechanizm spustowy')
-    if (rsa && !(rsa.compatible_generations ?? []).includes(5)) nonGen5.push('RSA')
+    const affectedGroups: string[] = ['frame']
+    if (slide && !slide.compatible_generations.includes(5)) { nonGen5.push('zamek'); affectedGroups.push('slide') }
+    if (barrel && !barrel.compatible_generations.includes(5)) { nonGen5.push('lufa'); affectedGroups.push('barrel') }
+    if (trigger && !trigger.compatible_generations.includes(5)) { nonGen5.push('mechanizm spustowy'); affectedGroups.push('trigger_group') }
+    if (rsa && !(rsa.compatible_generations ?? []).includes(5)) { nonGen5.push('RSA'); affectedGroups.push('recoil_spring_assembly') }
     if (nonGen5.length > 0) {
-      critical.push(`[R-G-007] Glock 45 wymaga wyłącznie Gen 5. Niezgodne: ${nonGen5.join(', ')}.`)
+      critical.push({
+        rule_id: 'R-G-007',
+        name: 'Glock 45 — tylko Gen 5',
+        message: `Glock 45 wymaga wyłącznie Gen 5. Niezgodne: ${nonGen5.join(', ')}.`,
+        affected_groups: affectedGroups,
+      })
     }
   }
 
@@ -155,50 +183,59 @@ export function validateConfiguration(config: Configuration): ValidationResult {
       config.slide === 'SLIDE-G19-G5' && config.frame === 'FRAME-G45-G5'
 
     if (!isG45CrossoverException && !slideModels.includes(frame.model)) {
-      errors.push(
-        `[R-G-003] Zamek kompatybilny z [${slideModels.join(', ')}], nie pasuje do ramki ${frame.model}.`
-      )
+      errors.push({
+        rule_id: 'R-G-003',
+        name: 'Niezgodność modelu zamka z ramką',
+        message: `Zamek kompatybilny z [${slideModels.join(', ')}], nie pasuje do ramki ${frame.model}.`,
+        affected_groups: ['slide', 'frame'],
+      })
     }
   }
 
   // ── R-G-004: Barrel–slide generation & model match (error) ───────────────
   if (barrel && slide) {
     const genOk = generationsOverlap(barrel.compatible_generations, slide.compatible_generations)
-    const modelOk = generationsOverlap(
-      barrel.compatible_models?.map(Number) ?? [],
-      slide.compatible_models?.map(Number) ?? []
-    ) || (barrel.compatible_models ?? []).some(m => (slide.compatible_models ?? []).includes(m))
+    const modelOk = (barrel.compatible_models ?? []).some(m => (slide.compatible_models ?? []).includes(m))
 
     if (!genOk) {
-      errors.push(
-        `[R-G-004] Lufa Gen ${barrel.compatible_generations.join('/')} niekompatybilna z zamkiem Gen ${slide.compatible_generations.join('/')}.`
-      )
+      errors.push({
+        rule_id: 'R-G-004',
+        name: 'Niezgodność generacji lufy i zamka',
+        message: `Lufa Gen ${barrel.compatible_generations.join('/')} niekompatybilna z zamkiem Gen ${slide.compatible_generations.join('/')}.`,
+        affected_groups: ['barrel', 'slide'],
+      })
     } else if (!modelOk) {
-      errors.push(
-        `[R-G-004] Lufa dla modeli [${(barrel.compatible_models ?? []).join(', ')}] niekompatybilna z zamkiem dla [${(slide.compatible_models ?? []).join(', ')}].`
-      )
+      errors.push({
+        rule_id: 'R-G-004',
+        name: 'Niezgodność modelu lufy i zamka',
+        message: `Lufa dla modeli [${(barrel.compatible_models ?? []).join(', ')}] niekompatybilna z zamkiem dla [${(slide.compatible_models ?? []).join(', ')}].`,
+        affected_groups: ['barrel', 'slide'],
+      })
     }
   }
 
   // ── R-G-005: Trigger bar generation lockout (error) ───────────────────────
   if (trigger && frame) {
     if (!trigger.compatible_generations.includes(frame.generation)) {
-      errors.push(
-        `[R-G-005] Mechanizm spustowy Gen ${trigger.compatible_generations.join('/')} niekompatybilny z ramką Gen ${frame.generation}.`
-      )
+      errors.push({
+        rule_id: 'R-G-005',
+        name: 'Niezgodność generacji mechanizmu spustowego',
+        message: `Mechanizm spustowy Gen ${trigger.compatible_generations.join('/')} niekompatybilny z ramką Gen ${frame.generation}.`,
+        affected_groups: ['trigger_group', 'frame'],
+      })
     }
   }
 
   // ── R-G-006: G17 magazine in compact frame (warning) ─────────────────────
   if (magazine && frame) {
-    const mag = magazine as MagazineComponent
     if (config.magazine === 'MAG-G17-17RD' && frame.size_class === 'compact') {
-      warnings.push(
-        `[R-G-006] Magazynek G17 (17 naboi) nie pasuje do compact frame. Użyj MAG-G19-15RD.`
-      )
+      warnings.push({
+        rule_id: 'R-G-006',
+        name: 'Magazynek G17 w compact frame',
+        message: `Magazynek G17 (17 naboi) nie pasuje do compact frame. Użyj MAG-G19-15RD.`,
+        affected_groups: ['magazine', 'frame'],
+      })
     }
-    // Suppress unused variable warning — mag used for type narrowing above
-    void mag
   }
 
   // ── R-G-008: RSA Gen4/5 visual similarity reminder (warning) ─────────────
@@ -206,9 +243,12 @@ export function validateConfiguration(config: Configuration): ValidationResult {
     const rsaId = config.recoil_spring_assembly
     if ((rsaId === 'RSA-G4-DUAL' || rsaId === 'RSA-G5-DUAL') &&
         (rsa.compatible_generations ?? []).includes(frame.generation)) {
-      warnings.push(
-        `[R-G-008] RSA Gen 4 i Gen 5 wyglądają identycznie — zweryfikuj oznaczenia na RSA.`
-      )
+      warnings.push({
+        rule_id: 'R-G-008',
+        name: 'RSA Gen 4/5 — ryzyko pomyłki',
+        message: `RSA Gen 4 i Gen 5 wyglądają identycznie — zweryfikuj oznaczenia na RSA.`,
+        affected_groups: ['recoil_spring_assembly'],
+      })
     }
   }
 
